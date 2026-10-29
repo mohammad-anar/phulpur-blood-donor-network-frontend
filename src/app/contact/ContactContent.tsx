@@ -44,13 +44,14 @@ export function ContactContent() {
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  // Contact Details from API (or official fallbacks)
-  const officialPhone = contactInfo?.phone || "০১৭১২-৩৪৫৬৭৮";
-  const officialEmail = contactInfo?.email || "contact@phulpurblood.org";
-  const officialFacebook = contactInfo?.facebook || "https://facebook.com";
+  // Contact Details from API (or official project values)
+  const officialPhone = contactInfo?.phone || "০১৯৭২-৬০৬২৫৫";
+  const officialEmail = contactInfo?.email || "bonnochobi@gmail.com";
+  const officialFacebook =
+    contactInfo?.facebook || "https://www.facebook.com/PhulpurBloodDonorNetwork";
 
   // Format tel link (removes non-digits/bangla formatting for href)
-  const phoneTelHref = officialPhone.replace(/[^\d+]/g, "") || "01712345678";
+  const phoneTelHref = "01972606255";
 
   // Validate form fields
   const validateForm = () => {

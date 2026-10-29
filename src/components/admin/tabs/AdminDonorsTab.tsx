@@ -27,6 +27,7 @@ import {
   UserX,
   AlertTriangle,
   Check,
+  Trash2,
 } from "lucide-react";
 import {
   useGetAdminDonorsQuery,
@@ -35,6 +36,7 @@ import {
   useRejectDonorMutation,
   useBlockDonorMutation,
   useUnblockDonorMutation,
+  useDeleteDonorMutation,
   AdminDonorItem,
 } from "@/lib/store/api/bloodDonationApi";
 import { toBengaliNumber, formatBengaliDate } from "@/lib/utils/donorCountdown";
@@ -54,6 +56,7 @@ export function AdminDonorsTab() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDonor, setSelectedDonor] = useState<AdminDonorItem | null>(null);
+  const [donorToDelete, setDonorToDelete] = useState<AdminDonorItem | null>(null);
 
   const { success, error } = useToast();
 
@@ -93,6 +96,7 @@ export function AdminDonorsTab() {
   const [rejectDonor, { isLoading: isRejecting }] = useRejectDonorMutation();
   const [blockDonor, { isLoading: isBlocking }] = useBlockDonorMutation();
   const [unblockDonor, { isLoading: isUnblocking }] = useUnblockDonorMutation();
+  const [deleteDonor, { isLoading: isDeleting }] = useDeleteDonorMutation();
 
   const donors = donorsData?.data || [];
   const pagination = donorsData?.pagination || { page: 1, limit: 10, total: 0, totalPage: 1 };
@@ -154,6 +158,21 @@ export function AdminDonorsTab() {
       }
     } catch (err: any) {
       error(err?.data?.message || "আনব্লক করতে ব্যর্থ হয়েছে।", "ত্রুটি");
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!donorToDelete) return;
+    try {
+      await deleteDonor(donorToDelete.id).unwrap();
+      success(`${donorToDelete.name}-এর অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলা হয়েছে।`, "মুছে ফেলা সম্পন্ন");
+      if (selectedDonor?.id === donorToDelete.id) {
+        setSelectedDonor(null);
+      }
+      setDonorToDelete(null);
+      refetchAll();
+    } catch (err: any) {
+      error(err?.data?.message || "অ্যাকাউন্ট মুছে ফেলা সম্ভব হয়নি।", "ত্রুটি");
     }
   };
 
@@ -727,6 +746,16 @@ export function AdminDonorsTab() {
                               </button>
                             )
                           )}
+
+                          {/* Delete Donor Action */}
+                          <button
+                            onClick={() => setDonorToDelete(donor)}
+                            disabled={isDeleting}
+                            className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 cursor-pointer transition-colors"
+                            title="অ্যাকাউন্ট মুছে ফেলুন"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -855,11 +884,18 @@ export function AdminDonorsTab() {
                 <button
                   onClick={() => handleBlock(selectedDonor.id, selectedDonor.name)}
                   disabled={isBlocking}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 cursor-pointer"
                 >
-                  অ্যাকাউন্ট ব্লক করুন
+                  অ্যাকাউন্ট স্থগিত (Block)
                 </button>
               )}
+              <button
+                onClick={() => setDonorToDelete(selectedDonor)}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 cursor-pointer flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>অ্যাকাউন্ট মুছুন</span>
+              </button>
               <a
                 href={`tel:${selectedDonor.phone}`}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] flex items-center gap-1.5 cursor-pointer"
@@ -867,6 +903,55 @@ export function AdminDonorsTab() {
                 <PhoneCall className="w-3.5 h-3.5" />
                 <span>সরাসরি কল দিন</span>
               </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. Delete Confirmation Modal */}
+      {donorToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+            <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+
+            <div className="text-center space-y-2">
+              <h3 className="text-base font-bold text-[var(--foreground)]">
+                রক্তদাতার অ্যাকাউন্ট মুছে ফেলতে চান?
+              </h3>
+              <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                আপনি কি নিশ্চিত যে <strong className="text-[var(--foreground)] font-semibold">{donorToDelete.name}</strong> ({donorToDelete.bloodGroup}) এর ডোনার অ্যাকাউন্টটি মুছে ফেলতে চান? এটি মুছে ফেললে ডাটাবেজ থেকে এই ডোনারের সকল রক্তদানের হিস্ট্রি ও প্রোফাইল স্থায়ীভাবে মুছে যাবে।
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDonorToDelete(null)}
+                disabled={isDeleting}
+                className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:bg-[var(--background-alt)] cursor-pointer"
+              >
+                বাতিল
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={isDeleting}
+                className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-xs cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>মুছে ফেলা হচ্ছে...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>হ্যাঁ, মুছে ফেলুন</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

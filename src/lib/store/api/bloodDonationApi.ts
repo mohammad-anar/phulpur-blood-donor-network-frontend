@@ -642,10 +642,10 @@ export const bloodDonationApi = createApi({
             return {
               data: {
                 id: data.id || "1",
-                phone: data.phone || "০১৭১২-৩৪৫৬৭৮",
-                email: data.email || "contact@phulpurblood.org",
-                whatsapp: data.whatsapp || "+8801712345678",
-                facebook: "https://facebook.com",
+                phone: data.phone || "০১৯৭২-৬০৬২৫৫",
+                email: data.email || "bonnochobi@gmail.com",
+                whatsapp: data.whatsapp || "+8801972606255",
+                facebook: "https://www.facebook.com/PhulpurBloodDonorNetwork",
               },
             };
           }
@@ -655,10 +655,10 @@ export const bloodDonationApi = createApi({
         return {
           data: {
             id: "1",
-            phone: "০১৭১২-৩৪৫৬৭৮",
-            email: "contact@phulpurblood.org",
-            whatsapp: "+8801712345678",
-            facebook: "https://facebook.com",
+            phone: "০১৯৭২-৬০৬২৫৫",
+            email: "bonnochobi@gmail.com",
+            whatsapp: "+8801972606255",
+            facebook: "https://www.facebook.com/PhulpurBloodDonorNetwork",
           },
         };
       },
@@ -802,6 +802,21 @@ export const bloodDonationApi = createApi({
       invalidatesTags: ["AdminDonors", "AdminOverview", "Donors", "Stats"],
     }),
 
+    deleteDonor: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/admin/donors/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        "AdminDonors",
+        "AdminOverview",
+        "Donors",
+        "Stats",
+        "AdminDonations",
+        "AdminReports",
+      ],
+    }),
+
     approveDonation: builder.mutation<any, { id: string; adminNote?: string }>({
       query: ({ id, adminNote }) => ({
         url: `/admin/donations/${id}/approve`,
@@ -858,6 +873,7 @@ export const {
   useRejectDonorMutation,
   useBlockDonorMutation,
   useUnblockDonorMutation,
+  useDeleteDonorMutation,
   useApproveDonationMutation,
   useRejectDonationMutation,
   useUpdateReportStatusMutation,
