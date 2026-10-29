@@ -64,6 +64,7 @@ export function DonorHistoryTab({
   // Certificate Modal State
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [certificateRecord, setCertificateRecord] = useState<DonationRecord | null>(null);
+  const [certificateIssueDate, setCertificateIssueDate] = useState<string>("");
 
   const approvedCount =
     myDonationsData?.summary?.approvedDonations ??
@@ -86,6 +87,7 @@ export function DonorHistoryTab({
 
   const handleOpenCertificate = (record?: DonationRecord) => {
     setCertificateRecord(record || null);
+    setCertificateIssueDate(formatBengaliDate(new Date()));
     setIsCertificateOpen(true);
   };
 
@@ -449,7 +451,7 @@ export function DonorHistoryTab({
               <div className="text-center">
                 <div className="w-24 h-0.5 bg-stone-400 mx-auto mb-1" />
                 <span>ইস্যুর তারিখ</span>
-                <span className="block text-[10px] font-semibold">{formatBengaliDate(new Date())}</span>
+                <span className="block text-[10px] font-semibold">{certificateIssueDate || "—"}</span>
               </div>
             </div>
 

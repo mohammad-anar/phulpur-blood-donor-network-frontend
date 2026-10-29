@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Calendar,
   Building2,
@@ -52,9 +52,17 @@ export function DonorNewRecordTab({ onNavigateTab }: DonorNewRecordTabProps) {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const todayStr = new Date().toISOString().split("T")[0];
+  const [todayStr, setTodayStr] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [clientNowMs, setClientNowMs] = useState<number | null>(null);
 
-  const [date, setDate] = useState(todayStr);
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setTodayStr(today);
+    setDate((prev) => prev || today);
+    setClientNowMs(Date.now());
+  }, []);
+
   const [hospital, setHospital] = useState("ফুলপুর উপজেলা স্বাস্থ্য কমপ্লেক্স");
   const [district, setDistrict] = useState("ময়মনসিংহ");
   const [upazila, setUpazila] = useState("ফুলপুর");
@@ -88,8 +96,8 @@ export function DonorNewRecordTab({ onNavigateTab }: DonorNewRecordTabProps) {
   let daysRemaining = 0;
   let daysSinceLast = 0;
 
-  if (lastDonationDateObj && !isNaN(lastDonationDateObj.getTime())) {
-    const msSince = Date.now() - lastDonationDateObj.getTime();
+  if (clientNowMs && lastDonationDateObj && !isNaN(lastDonationDateObj.getTime())) {
+    const msSince = clientNowMs - lastDonationDateObj.getTime();
     daysSinceLast = Math.max(0, Math.floor(msSince / (1000 * 60 * 60 * 24)));
     if (daysSinceLast < 120) {
       isCoolingDown = true;
