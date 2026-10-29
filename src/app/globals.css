@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Color Palette - Light Mode */
+    --background: #fbfbfb;
+    --background-alt: #f4f6f8;
+    --foreground: #1c1917;
+    --foreground-muted: #57534e;
+    --foreground-subtle: #78716c;
+
+    /* Card & Container surfaces */
+    --card-bg: #ffffff;
+    --card-border: #f0ebeb;
+    --card-shadow: 0 4px 20px -2px rgba(185, 28, 28, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    --card-shadow-hover: 0 12px 28px -4px rgba(185, 28, 28, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
+
+    /* Brand Blood Red Colors */
+    --color-primary: #b91c1c;         /* Main blood red */
+    --color-primary-hover: #991b1b;   /* Darker red hover */
+    --color-primary-active: #7f1d1d;
+    --color-primary-light: #fef2f2;   /* Soft red/pink badge bg */
+    --color-primary-tint: #fee2e2;    /* Soft pill bg */
+    --color-primary-border: #fca5a5;  /* Subtle red border */
+
+    /* Accent & Action */
+    --color-accent: #dc2626;
+    --color-accent-soft: rgba(220, 38, 38, 0.08);
+
+    /* Status Badges */
+    --badge-available-bg: #dcfce7;
+    --badge-available-text: #15803d;
+    --badge-available-border: #bbf7d0;
+
+    /* Footer & Dark Hero CTA Surfaces */
+    --color-footer-bg: #3f090d;
+    --color-footer-card: #4d0b10;
+    --color-footer-border: #5e1117;
+    --color-footer-text: #fecdd3;
+    --color-footer-muted: #fda4af;
+
+    /* Borders and Dividers */
+    --border-color: #e7e5e4;
+    --border-subtle: #f5f5f4;
+
+    /* Font Family variable */
+    --font-bengali: var(--font-hind-siliguri), 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+  }
+
+  .dark {
+    /* Color Palette - Dark Mode */
+    --background: #0d0f14;
+    --background-alt: #131720;
+    --foreground: #f3f4f6;
+    --foreground-muted: #9ca3af;
+    --foreground-subtle: #6b7280;
+
+    /* Card & Container surfaces */
+    --card-bg: #161b26;
+    --card-border: #242c3d;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    --card-shadow-hover: 0 12px 28px -4px rgba(220, 38, 38, 0.2);
+
+    /* Brand Blood Red Colors */
+    --color-primary: #dc2626;
+    --color-primary-hover: #ef4444;
+    --color-primary-active: #b91c1c;
+    --color-primary-light: rgba(220, 38, 38, 0.15);
+    --color-primary-tint: rgba(220, 38, 38, 0.22);
+    --color-primary-border: rgba(239, 68, 68, 0.35);
+
+    /* Accent & Action */
+    --color-accent: #ef4444;
+    --color-accent-soft: rgba(239, 68, 68, 0.16);
+
+    /* Status Badges */
+    --badge-available-bg: rgba(22, 101, 52, 0.3);
+    --badge-available-text: #86efac;
+    --badge-available-border: rgba(34, 197, 94, 0.4);
+
+    /* Footer & Dark Hero CTA Surfaces */
+    --color-footer-bg: #090305;
+    --color-footer-card: #15060a;
+    --color-footer-border: #2d0c14;
+    --color-footer-text: #e5e7eb;
+    --color-footer-muted: #9ca3af;
+
+    /* Borders and Dividers */
+    --border-color: #242c3d;
+    --border-subtle: #1f2533;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-bengali);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-alt);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Heartbeat pulse animation */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 2.2s infinite ease-in-out;
+}
+
+/* Float animation for decorative hero elements */
+@keyframes softFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-soft-float {
+  animation: softFloat 4s ease-in-out infinite;
+}
