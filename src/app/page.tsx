@@ -1,98 +1,54 @@
-"use client";
+import type { Metadata } from "next";
+import { HomeContent } from "./HomeContent";
 
-import { useState, Suspense } from "react";
-import { Navbar } from "@/components/layout/Navbar";
-import { HeroSection } from "@/components/home/HeroSection";
-import { SearchSection } from "@/components/home/SearchSection";
-import { ServicesSection } from "@/components/home/ServicesSection";
-import { StatsSection } from "@/components/home/StatsSection";
-import { DonorsSection } from "@/components/home/DonorsSection";
-import { CtaBanner } from "@/components/home/CtaBanner";
-import { Footer } from "@/components/layout/Footer";
-import { RegisterModal } from "@/components/modals/RegisterModal";
-import { ContactModal } from "@/components/modals/ContactModal";
-import { Donor } from "@/lib/store/api/bloodDonationApi";
+const siteUrl = "https://phulpurblooddonornetwork.vercel.app";
 
-export default function Home() {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [selectedDonor, setSelectedDonor] = useState<Donor | null>(null);
-  const [contactMode, setContactMode] = useState<"call" | "message">("call");
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+export const metadata: Metadata = {
+  title: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | Phulpur Blood Donor Network - রক্ত দিন জীবন বাঁচান",
+  description:
+    "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক (Phulpur Blood Donor Network) - ময়মনসিংহের ফুলপুর ও পার্শ্ববর্তী এলাকায় জরুরি প্রয়োজনে রক্তদাতা খুঁজুন এবং বিনামূল্যে রক্তদাতা হিসেবে নিবন্ধন করুন।",
+  keywords: [
+    "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
+    "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
+    "ফুলপুর ব্লাড ডোনার",
+    "phulpur blood donor network",
+    "phulpur blood donor",
+    "fulpur blood donor network",
+    "fulpur blood donor",
+    "ফুলপুর রক্তদান",
+    "ফুলপুর রক্তদাতা",
+    "ফুলপুর ব্লাড ব্যাংক",
+    "ফুলপুরে রক্তের সন্ধান",
+    "জরুরি রক্ত ফুলপুর",
+    "blood donor in phulpur",
+    "phulpur blood donation",
+  ],
+  alternates: {
+    canonical: `${siteUrl}/`,
+  },
+  openGraph: {
+    title: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | Phulpur Blood Donor Network",
+    description:
+      "জরুরি প্রয়োজনে রক্তদাতা খুঁজুন এবং রক্তদাতা হিসেবে যুক্ত হয়ে মানুষের জীবন বাঁচান। ফুলপুর, ময়মনসিংহ।",
+    url: `${siteUrl}/`,
+    images: [
+      {
+        url: "/images/hero-illustration.png",
+        width: 1200,
+        height: 630,
+        alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | Phulpur Blood Donor Network",
+    description:
+      "জরুরি প্রয়োজনে রক্তদাতা খুঁজুন এবং রক্তদাতা হিসেবে যুক্ত হয়ে মানুষের জীবন বাঁচান। ফুলপুর, ময়মনসিংহ।",
+    images: ["/images/hero-illustration.png"],
+  },
+};
 
-  const handleOpenRegister = () => {
-    setIsRegisterModalOpen(true);
-  };
-
-  const handleScrollToSearch = () => {
-    const searchEl = document.getElementById("search");
-    if (searchEl) {
-      searchEl.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleScrollToDonors = () => {
-    const donorsEl = document.getElementById("donors-section");
-    if (donorsEl) {
-      donorsEl.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleContactDonor = (donor: Donor, mode: "call" | "message") => {
-    setSelectedDonor(donor);
-    setContactMode(mode);
-    setIsContactModalOpen(true);
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)] transition-colors duration-200">
-      {/* Top Header / Navigation */}
-      <Navbar
-        onOpenRegisterModal={handleOpenRegister}
-        onOpenSearchScroll={handleScrollToSearch}
-      />
-
-      <main className="flex-1">
-        <Suspense fallback={<div className="min-h-screen bg-[var(--background)] animate-pulse" />}>
-          {/* 1. Hero Section */}
-          <HeroSection
-            onRegisterClick={handleOpenRegister}
-            onSearchClick={handleScrollToSearch}
-          />
-
-          {/* 5. Recent Registered Donors Cards */}
-          <DonorsSection
-            onContactClick={handleContactDonor}
-            onViewAllClick={handleScrollToDonors}
-          />
-
-          {/* 3. Our Services Section */}
-          <ServicesSection />
-
-          {/* 4. Stats Counter & Quick CTA Banner */}
-          <StatsSection onRegisterClick={handleOpenRegister} />
-
-
-
-          {/* 6. Bottom Blood Donor Call-To-Action Banner */}
-          <CtaBanner onRegisterClick={handleOpenRegister} />
-        </Suspense>
-      </main>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Interactive Modals */}
-      <RegisterModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
-
-      <ContactModal
-        donor={selectedDonor}
-        mode={contactMode}
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
-    </div>
-  );
+export default function HomePage() {
+  return <HomeContent />;
 }
