@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { useAuth } from "@/lib/api/useAuth";
 import { getAssetUrl } from "@/lib/api/auth";
 import { useGetEmergencyRequestsQuery } from "@/lib/store/api/bloodDonationApi";
+import { formatBloodGroup } from "@/lib/utils/donorCountdown";
 
 interface DonorHeaderProps {
   onToggleMobileMenu: () => void;
@@ -26,7 +27,7 @@ export function DonorHeader({
   const notificationRef = useRef<HTMLDivElement>(null);
 
   const donorName = user?.name || "রক্তদাতা";
-  const donorBloodGroup = user?.bloodGroup || "";
+  const donorBloodGroup = formatBloodGroup(user?.bloodGroup);
   const donorAvatar = getAssetUrl(user?.profileImage);
   const donorZone = user?.presentAddress || user?.currentAddress || user?.location || "";
 
@@ -146,7 +147,7 @@ export function DonorHeader({
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-[var(--foreground)]">{req.rugirNam}</span>
                         <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold text-[10px]">
-                          {req.bloodGroup} • {req.kotoBag} ব্যাগ
+                          {formatBloodGroup(req.bloodGroup)} • {req.kotoBag} ব্যাগ
                         </span>
                       </div>
                       <p className="text-[11px] text-[var(--foreground-muted)] truncate">{req.thikana}</p>

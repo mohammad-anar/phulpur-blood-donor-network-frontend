@@ -202,8 +202,8 @@ export default function RegisterPage() {
                 <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 text-xs sm:text-sm text-blue-800 dark:text-blue-300 max-w-md mx-auto text-left flex items-start gap-3">
                   <Mail className="w-5 h-5 shrink-0 mt-0.5 text-blue-600" />
                   <div>
-                    <span className="font-bold block">ইমেইল ভেরিফিকেশন:</span>
-                    আপনার ইমেইল <strong className="font-semibold underline">{email}</strong>-এ যাচাইকরণ লিংক পাঠানো হয়েছে। লিংকটিতে ক্লিক করে ইমেইল নিশ্চিত করতে পারেন।
+                    <span className="font-bold block">ইমেইল সংরক্ষিত:</span>
+                    আপনার ইমেইল <strong className="font-semibold underline">{email}</strong> সফলভাবে যুক্ত হয়েছে। অ্যাকাউন্টের নিরাপত্তা ও প্রয়োজনে পাসওয়ার্ড রিকভারির জন্য এটি ব্যবহৃত হবে।
                   </div>
                 </div>
               )}

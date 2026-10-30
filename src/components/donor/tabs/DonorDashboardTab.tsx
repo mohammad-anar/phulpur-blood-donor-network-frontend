@@ -23,6 +23,7 @@ import {
   useDonorCountdown,
   toBengaliNumber,
   formatBengaliDate,
+  formatBloodGroup,
 } from "@/lib/utils/donorCountdown";
 import { useAuth } from "@/lib/api/useAuth";
 import { useToast } from "@/components/common/Toast";
@@ -64,7 +65,7 @@ export function DonorDashboardTab({
   const countdown = useDonorCountdown(activeDonations);
 
   const donorName = user?.name || "রক্তদাতা";
-  const donorBloodGroup = user?.bloodGroup || "";
+  const donorBloodGroup = formatBloodGroup(user?.bloodGroup);
   const donorZone =
     user?.presentAddress || user?.currentAddress || user?.location || "";
 
@@ -169,7 +170,7 @@ export function DonorDashboardTab({
               + রক্তদানের রেকর্ড যোগ করুন
             </button>
             <a
-              href="tel:01711000001"
+              href="tel:01972606255"
               className="px-4 py-2.5 rounded-xl font-bold text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 transition-all text-xs cursor-pointer border border-emerald-200 dark:border-emerald-800"
             >
               জরুরি হটলাইন
@@ -649,7 +650,7 @@ export function DonorDashboardTab({
                       {req.title || "জরুরি রক্তের অনুরোধ"}
                     </span>
                     <span className="px-2 py-0.5 rounded-full bg-red-600 text-white text-xs font-bold">
-                      {req.bloodGroup}
+                      {formatBloodGroup(req.bloodGroup)}
                     </span>
                   </div>
                   <h4 className="text-sm font-bold text-[var(--foreground)]">

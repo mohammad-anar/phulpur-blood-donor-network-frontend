@@ -35,7 +35,7 @@ import {
   useGetMyDonationsQuery,
   useUpdateDonorProfileMutation,
 } from "@/lib/store/api/bloodDonationApi";
-import { toBengaliNumber } from "@/lib/utils/donorCountdown";
+import { toBengaliNumber, formatBloodGroup } from "@/lib/utils/donorCountdown";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -52,7 +52,7 @@ export function DonorProfileTab() {
   // Live user profile data from auth session
   const donorName = user?.name || "";
   const donorPhone = user?.phone || "";
-  const donorBloodGroup = user?.bloodGroup || "";
+  const donorBloodGroup = formatBloodGroup(user?.bloodGroup);
   const donorPresentAddress =
     user?.presentAddress || user?.currentAddress || user?.location || "";
   const donorPermanentAddress = user?.permanentAddress || "";
@@ -84,11 +84,6 @@ export function DonorProfileTab() {
   // Profile image upload state
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-  // Preferences
-  const [allowDirectCall, setAllowDirectCall] = useState(true);
-  const [showInPublicDirectory, setShowInPublicDirectory] = useState(true);
-  const [savedSuccess, setSavedSuccess] = useState(false);
-
   useEffect(() => {
     if (user) {
       if (user.name) setName(user.name);
@@ -116,8 +111,6 @@ export function DonorProfileTab() {
 
       await refreshUser();
       setIsEditingInfo(false);
-      setSavedSuccess(true);
-      setTimeout(() => setSavedSuccess(false), 2500);
       success("ব্যক্তিগত প্রোফাইল সফলভাবে আপডেট করা হয়েছে!", "সফল");
     } catch (err: any) {
       const msg = err?.data?.message || err?.message || "প্রোফাইল আপডেট করতে সমস্যা হয়েছে।";
@@ -270,12 +263,6 @@ export function DonorProfileTab() {
     }
   };
 
-  const handleSavePreferences = () => {
-    setSavedSuccess(true);
-    success("নিরাপত্তা ও গোপনীয়তা সেটিংস সংরক্ষিত হয়েছে!");
-    setTimeout(() => setSavedSuccess(false), 2500);
-  };
-
   const isEmailVerified = Boolean(user?.email && user?.emailVerifiedAt);
 
   const approvedDonationsCount =
@@ -287,10 +274,10 @@ export function DonorProfileTab() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
-            ডোনার প্রোফাইল ও নিরাপত্তা
+            ডোনার প্রোফাইল
           </h1>
           <p className="text-sm text-[var(--foreground-muted)] mt-1">
-            আপনার ব্যক্তিগত তথ্য, ইমেইল, প্রোফাইল ছবি ও অ্যাকাউন্টের নিরাপত্তা নিয়ন্ত্রণ করুন
+            আপনার ব্যক্তিগত তথ্য, ইমেইল, প্রোফাইল ছবি ও অ্যাকাউন্টের নিরাপত্তা পরিচালনা করুন
           </p>
         </div>
 
@@ -843,87 +830,6 @@ export function DonorProfileTab() {
                 <span>{user?.status === "APPROVED" ? "অনুমোদিত রক্তদাতা" : "সক্রিয় সদস্য"}</span>
               </span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 6. Privacy Control */}
-      <div className="rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 shadow-xs space-y-5">
-        <h3 className="text-base font-bold text-[var(--foreground)]">
-          নিরাপত্তা ও গোপনীয়তা নিয়ন্ত্রণ
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="p-4 rounded-xl bg-[var(--background-alt)] border border-[var(--border-color)] flex items-start justify-between gap-4">
-            <div>
-              <h4 className="text-xs font-bold text-[var(--foreground)]">
-                জরুরি রক্ত চাওয়ার ক্ষেত্রে সরাসরি কল পেতে সম্মত
-              </h4>
-              <p className="text-[11px] text-[var(--foreground-muted)] mt-1">
-                ফুলপুর উপজেলা স্বাস্থ্য কমপ্লেক্স বা ক্লিনিকে মুমূর্ষু রোগীর প্রয়োজনে সমন্বয়ক সরাসরি ফোনে যোগাযোগ করতে পারবেন।
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setAllowDirectCall(!allowDirectCall);
-                success("সরাসরি কল প্রাপ্যতা সেটিংস পরিবর্তিত হয়েছে");
-              }}
-              className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${
-                allowDirectCall ? "bg-[var(--color-primary)]" : "bg-stone-300 dark:bg-stone-700"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                  allowDirectCall ? "right-0.5" : "left-0.5"
-                }`}
-              />
-            </button>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[var(--background-alt)] border border-[var(--border-color)] flex items-start justify-between gap-4">
-            <div>
-              <h4 className="text-xs font-bold text-[var(--foreground)]">
-                পাবলিক ডিরেক্টরিতে নাম ও এলাকা প্রদর্শন
-              </h4>
-              <p className="text-[11px] text-[var(--foreground-muted)] mt-1">
-                ফুলপুর ব্লাড ডোনার ওয়েবের তালিকায় রক্তের গ্রুপ ও পৌরসভা/ইউনিয়নের নাম প্রকাশ করা হবে।
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setShowInPublicDirectory(!showInPublicDirectory);
-                success("পাবলিক ডিরেক্টরি দৃশ্যমানতা সেটিংস পরিবর্তিত হয়েছে");
-              }}
-              className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${
-                showInPublicDirectory ? "bg-[var(--color-primary)]" : "bg-stone-300 dark:bg-stone-700"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                  showInPublicDirectory ? "right-0.5" : "left-0.5"
-                }`}
-              />
-            </button>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between pt-2">
-          {savedSuccess && (
-            <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>পরিবর্তন সফলভাবে সংরক্ষণ করা হয়েছে!</span>
-            </span>
-          )}
-          <div className="ml-auto flex items-center gap-3">
-            <button
-              type="button"
-              onClick={handleSavePreferences}
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] shadow-xs cursor-pointer"
-            >
-              পরিবর্তন সংরক্ষণ করুন
-            </button>
           </div>
         </div>
       </div>

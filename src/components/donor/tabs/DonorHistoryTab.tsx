@@ -29,6 +29,7 @@ import {
   useDonorCountdown,
   toBengaliNumber,
   formatBengaliDate,
+  formatBloodGroup,
 } from "@/lib/utils/donorCountdown";
 
 interface DonorHistoryTabProps {
@@ -52,7 +53,7 @@ export function DonorHistoryTab({
   };
 
   const donorName = user?.name || "রক্তদাতা";
-  const donorBloodGroup = user?.bloodGroup || "";
+  const donorBloodGroup = formatBloodGroup(user?.bloodGroup);
 
   const allDonations: DonationRecord[] = myDonationsData?.donations || [];
 

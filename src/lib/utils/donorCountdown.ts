@@ -58,6 +58,41 @@ export function formatBengaliDate(input: Date | string | number | null | undefin
 }
 
 /**
+ * Formats blood group from enum or string representation (e.g. 'AB_POSITIVE' -> 'AB+', 'O_NEGATIVE' -> 'O-')
+ */
+export function formatBloodGroup(bg?: string | null): string {
+  if (!bg) return "";
+  const normalized = bg.trim().toUpperCase();
+  const map: Record<string, string> = {
+    A_POSITIVE: "A+",
+    A_NEGATIVE: "A-",
+    B_POSITIVE: "B+",
+    B_NEGATIVE: "B-",
+    AB_POSITIVE: "AB+",
+    AB_NEGATIVE: "AB-",
+    O_POSITIVE: "O+",
+    O_NEGATIVE: "O-",
+    APOSITIVE: "A+",
+    ANEGATIVE: "A-",
+    BPOSITIVE: "B+",
+    BNEGATIVE: "B-",
+    ABPOSITIVE: "AB+",
+    ABNEGATIVE: "AB-",
+    OPOSITIVE: "O+",
+    ONEGATIVE: "O-",
+    "A+": "A+",
+    "A-": "A-",
+    "B+": "B+",
+    "B-": "B-",
+    "AB+": "AB+",
+    "AB-": "AB-",
+    "O+": "O+",
+    "O-": "O-",
+  };
+  return map[normalized] || normalized.replace("_POSITIVE", "+").replace("_NEGATIVE", "-");
+}
+
+/**
  * Safely parses multiple date representations:
  * - Bengali date string: '০৬ জুলাই ২০২৬'
  * - ISO string: '2026-07-06'

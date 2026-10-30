@@ -122,7 +122,7 @@ export function DonorSidebar({
       <div className="p-4 border-t border-[var(--border-subtle)] flex flex-col gap-3">
         {/* Emergency Helpline Box */}
         <a
-          href="tel:01711000001"
+          href="tel:01972606255"
           className="p-3 rounded-xl bg-[var(--color-primary-light)] border border-[var(--color-primary-border)] flex flex-col gap-1 hover:border-[var(--color-primary)] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-1.5 text-[var(--color-primary)]">
@@ -130,7 +130,7 @@ export function DonorSidebar({
             <span className="text-xs font-bold">জরুরি রক্ত সহায়তা</span>
           </div>
           <span className="text-sm font-bold text-[var(--foreground)]" dir="ltr">
-            ০১৭১১-০০০০০১
+            ০১৯৭২-৬০৬২৫৫
           </span>
           <span className="text-[11px] text-[var(--foreground-muted)]">
             ফুলপুর উপজেলা হেল্পলাইন

@@ -54,7 +54,7 @@ export function AdminHeader({
   const getPageTitle = (path: string) => {
     if (path === "/admin") return "অ্যাডমিন ওভারভিউ";
     if (path.startsWith("/admin/donors")) return "ডোনার ব্যবস্থাপনা";
-    if (path.startsWith("/admin/verification")) return "রক্তদানের রেকর্ড যাচাই";
+    if (path.startsWith("/admin/verification")) return "রক্তদানের রেকর্ড তালিকা";
     if (path.startsWith("/admin/reports")) return "রিপোর্ট ও অভিযোগ";
     if (path.startsWith("/admin/activity")) return "কার্যক্রমের ইতিহাস";
     return "অ্যাডমিন ড্যাশবোর্ড";

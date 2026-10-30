@@ -59,8 +59,11 @@ export default function Home() {
             onSearchClick={handleScrollToSearch}
           />
 
-          {/* 2. Floating Search Filter Section */}
-          <SearchSection />
+          {/* 5. Recent Registered Donors Cards */}
+          <DonorsSection
+            onContactClick={handleContactDonor}
+            onViewAllClick={handleScrollToDonors}
+          />
 
           {/* 3. Our Services Section */}
           <ServicesSection />
@@ -68,11 +71,7 @@ export default function Home() {
           {/* 4. Stats Counter & Quick CTA Banner */}
           <StatsSection onRegisterClick={handleOpenRegister} />
 
-          {/* 5. Recent Registered Donors Cards */}
-          <DonorsSection
-            onContactClick={handleContactDonor}
-            onViewAllClick={handleScrollToDonors}
-          />
+
 
           {/* 6. Bottom Blood Donor Call-To-Action Banner */}
           <CtaBanner onRegisterClick={handleOpenRegister} />

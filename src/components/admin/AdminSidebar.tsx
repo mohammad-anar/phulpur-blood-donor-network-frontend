@@ -45,11 +45,9 @@ export function AdminSidebar({
     { id: "donors" as AdminTab, label: "ডোনার ব্যবস্থাপনা", icon: Users, href: "/admin/donors" },
     {
       id: "verification" as AdminTab,
-      label: "যাচাই অপেক্ষমাণ",
+      label: "রক্তদানের রেকর্ড",
       icon: CheckSquare,
       href: "/admin/verification",
-      badge: pendingDonations > 0 ? toBengaliNumber(pendingDonations) : undefined,
-      badgeColor: "bg-amber-500",
     },
     {
       id: "reports" as AdminTab,

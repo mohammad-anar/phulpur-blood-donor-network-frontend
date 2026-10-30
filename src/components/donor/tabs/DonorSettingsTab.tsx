@@ -14,8 +14,6 @@ import {
   EyeOff,
   User,
   History,
-  PhoneCall,
-  Globe,
   Settings,
 } from "lucide-react";
 import { useAuth } from "@/lib/api/useAuth";
@@ -42,11 +40,6 @@ export function DonorSettingsTab() {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
-
-  // Preferences
-  const [allowDirectCall, setAllowDirectCall] = useState(true);
-  const [showInPublicDirectory, setShowInPublicDirectory] = useState(true);
-  const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -150,12 +143,6 @@ export function DonorSettingsTab() {
     }
   };
 
-  const handleSavePreferences = () => {
-    setSavedSuccess(true);
-    success("নিরাপত্তা ও গোপনীয়তা সেটিংস সংরক্ষিত হয়েছে!");
-    setTimeout(() => setSavedSuccess(false), 2500);
-  };
-
   const isEmailVerified = Boolean(user?.email && user?.emailVerifiedAt);
 
   return (
@@ -172,7 +159,7 @@ export function DonorSettingsTab() {
                 সেটিংস ও নিরাপত্তা
               </h1>
               <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
-                অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন, ইমেইল যাচাই এবং গোপনীয়তা নিয়ন্ত্রণ করুন
+                অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন এবং ইমেইল ঠিকানা পরিচালনা করুন
               </p>
             </div>
           </div>
@@ -392,96 +379,6 @@ export function DonorSettingsTab() {
             </button>
           </div>
         </form>
-      </div>
-
-      {/* 4. Privacy Control */}
-      <div className="rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 shadow-xs space-y-5">
-        <div className="flex items-center gap-2 pb-3 border-b border-[var(--border-subtle)]">
-          <Globe className="w-5 h-5 text-[var(--color-primary)]" />
-          <h3 className="text-base font-bold text-[var(--foreground)]">
-            নিরাপত্তা ও গোপনীয়তা নিয়ন্ত্রণ
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="p-4 rounded-xl bg-[var(--background-alt)] border border-[var(--border-color)] flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <PhoneCall className="w-4 h-4 text-emerald-600" />
-                <h4 className="text-xs font-bold text-[var(--foreground)]">
-                  জরুরি রক্ত চাওয়ার ক্ষেত্রে সরাসরি কল পেতে সম্মত
-                </h4>
-              </div>
-              <p className="text-[11px] text-[var(--foreground-muted)] mt-1">
-                ফুলপুর উপজেলা স্বাস্থ্য কমপ্লেক্স বা ক্লিনিকে মুমূর্ষু রোগীর প্রয়োজনে সমন্বয়ক সরাসরি ফোনে যোগাযোগ করতে পারবেন।
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setAllowDirectCall(!allowDirectCall);
-                success("সরাসরি কল প্রাপ্যতা সেটিংস পরিবর্তিত হয়েছে");
-              }}
-              className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${
-                allowDirectCall ? "bg-[var(--color-primary)]" : "bg-stone-300 dark:bg-stone-700"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                  allowDirectCall ? "right-0.5" : "left-0.5"
-                }`}
-              />
-            </button>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[var(--background-alt)] border border-[var(--border-color)] flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-blue-600" />
-                <h4 className="text-xs font-bold text-[var(--foreground)]">
-                  পাবলিক ডিরেক্টরিতে নাম ও এলাকা প্রদর্শন
-                </h4>
-              </div>
-              <p className="text-[11px] text-[var(--foreground-muted)] mt-1">
-                ফুলপুর ব্লাড ডোনার ওয়েবের তালিকায় রক্তের গ্রুপ ও পৌরসভা/ইউনিয়নের নাম প্রকাশ করা হবে।
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setShowInPublicDirectory(!showInPublicDirectory);
-                success("পাবলিক ডিরেক্টরি দৃশ্যমানতা সেটিংস পরিবর্তিত হয়েছে");
-              }}
-              className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${
-                showInPublicDirectory ? "bg-[var(--color-primary)]" : "bg-stone-300 dark:bg-stone-700"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                  showInPublicDirectory ? "right-0.5" : "left-0.5"
-                }`}
-              />
-            </button>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between pt-2">
-          {savedSuccess && (
-            <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>পরিবর্তন সফলভাবে সংরক্ষণ করা হয়েছে!</span>
-            </span>
-          )}
-          <div className="ml-auto flex items-center gap-3">
-            <button
-              type="button"
-              onClick={handleSavePreferences}
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] shadow-xs cursor-pointer"
-            >
-              পরিবর্তন সংরক্ষণ করুন
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -131,11 +131,12 @@ async function apiRequest<T>(
 
   if (!response.ok) {
     const message =
-      data?.message ||
+      (Array.isArray(data?.errorMessages) && data.errorMessages[0]?.message) ||
       (Array.isArray(data?.errorSources) && data.errorSources[0]?.message) ||
+      data?.message ||
       `অনুরোধটি ব্যর্থ হয়েছে (${response.status})`;
     const errorCode = data?.errorCode;
-    const errorSources = data?.errorSources;
+    const errorSources = data?.errorMessages || data?.errorSources;
     throw new ApiError(message, response.status, errorCode, errorSources);
   }
 
