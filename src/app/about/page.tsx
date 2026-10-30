@@ -29,19 +29,20 @@ export const metadata: Metadata = {
     url: `${siteUrl}/about`,
     images: [
       {
-        url: "/images/hero-illustration.png",
-        width: 1200,
-        height: 630,
+        url: `${siteUrl}/favicon.png`,
+        width: 333,
+        height: 478,
         alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক আমাদের সম্পর্কে",
+        type: "image/png",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "আমাদের সম্পর্কে | ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
     description:
       "রক্তদানে এগিয়ে আসি, বাঁচাই মানুষের প্রাণ। ফুলপুর ব্লাড ডোনার নেটওয়ার্ক একটি মানবিক ও অলাভজনক উদ্যোগ।",
-    images: ["/images/hero-illustration.png"],
+    images: [`${siteUrl}/favicon.png`],
   },
 };
 

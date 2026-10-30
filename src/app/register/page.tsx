@@ -27,19 +27,20 @@ export const metadata: Metadata = {
     url: `${siteUrl}/register`,
     images: [
       {
-        url: "/images/hero-illustration.png",
-        width: 1200,
-        height: 630,
+        url: `${siteUrl}/favicon.png`,
+        width: 333,
+        height: 478,
         alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক রক্তদাতা নিবন্ধন",
+        type: "image/png",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "রক্তদাতা নিবন্ধন | ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
     description:
       "স্বেচ্ছায় রক্তদাতা হিসেবে যুক্ত হোন এবং মানবতার সেবায় এগিয়ে আসুন। ফুলপুর ব্লাড ডোনার নেটওয়ার্ক।",
-    images: ["/images/hero-illustration.png"],
+    images: [`${siteUrl}/favicon.png`],
   },
 };
 

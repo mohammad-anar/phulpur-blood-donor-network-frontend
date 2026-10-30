@@ -29,19 +29,20 @@ export const metadata: Metadata = {
     url: `${siteUrl}/contact`,
     images: [
       {
-        url: "/images/hero-illustration.png",
-        width: 1200,
-        height: 630,
+        url: `${siteUrl}/favicon.png`,
+        width: 333,
+        height: 478,
         alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক যোগাযোগ",
+        type: "image/png",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "যোগাযোগ | ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
     description:
       "জরুরি রক্তদান পরামর্শ বা সহযোগিতার প্রয়োজন হলে ফুলপুর ব্লাড ডোনার নেটওয়ার্কের সাথে যোগাযোগ করুন।",
-    images: ["/images/hero-illustration.png"],
+    images: [`${siteUrl}/favicon.png`],
   },
 };
 

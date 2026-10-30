@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     "ফুলপুরে রক্তের সন্ধান",
     "জরুরি রক্ত ফুলপুর",
     "রক্ত দিন জীবন বাঁচান ফুলপুর",
-    "ময়মনসিংহ রক্তদান",
+    "ময়মনসিংহ রক্তদান",
     "blood donor in phulpur",
     "phulpur blood donation",
     "phulpur blood bank",
@@ -62,31 +62,26 @@ export const metadata: Metadata = {
     type: "website",
     locale: "bn_BD",
     url: siteUrl,
-    siteName: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | Phulpur Blood Donor Network",
+    siteName: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
     title: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | রক্ত দিন, জীবন বাঁচান",
     description:
       "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক - ফুলপুর ও আশপাশের এলাকায় জরুরি প্রয়োজনে দ্রুত রক্তদাতা খুঁজুন এবং রক্তদাতা হিসেবে যুক্ত হয়ে মানুষের জীবন বাঁচান।",
     images: [
       {
-        url: "/images/hero-illustration.png",
-        width: 1200,
-        height: 630,
-        alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক - Phulpur Blood Donor Network",
-      },
-      {
-        url: "/images/logo.png",
-        width: 512,
-        height: 512,
-        alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক লোগো",
+        url: `${siteUrl}/favicon.png`,
+        width: 333,
+        height: 478,
+        alt: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক",
+        type: "image/png",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক | Phulpur Blood Donor Network",
     description:
-      "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক - জরুরি প্রয়োজনে রক্তদাতা খুঁজুন ও স্বেচ্ছায় রক্তদান করুন। ফুলপুর, ময়মনসিংহ।",
-    images: ["/images/hero-illustration.png"],
+      "জরুরি প্রয়োজনে রক্তদাতা খুঁজুন ও স্বেচ্ছায় রক্তদান করুন। ফুলপুর, ময়মনসিংহ।",
+    images: [`${siteUrl}/favicon.png`],
   },
   robots: {
     index: true,
@@ -101,10 +96,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/logo.png", sizes: "any" },
+      { url: "/favicon.png", sizes: "any" },
       { url: "/favicon.ico", sizes: "any" },
     ],
-    apple: "/images/logo.png",
+    apple: "/favicon.png",
   },
   verification: {
     google:
@@ -130,11 +125,11 @@ const jsonLd = {
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/images/logo.png`,
-        width: 512,
-        height: 512,
+        url: `${siteUrl}/favicon.png`,
+        width: 333,
+        height: 478,
       },
-      image: `${siteUrl}/images/hero-illustration.png`,
+      image: `${siteUrl}/favicon.png`,
       description:
         "ফুলপুর ব্লাড ডোনার নেটওয়ার্ক ময়মনসিংহের ফুলপুর উপজেলার জরুরি রক্তদান ও রক্তদাতা খোঁজার একটি উন্মুক্ত মানবিক প্ল্যাটফর্ম।",
       address: {
@@ -175,6 +170,13 @@ export default function RootLayout({
   return (
     <html lang="bn" suppressHydrationWarning className={hindSiliguri.variable}>
       <head>
+        {/* WhatsApp & Social Media OpenGraph Image tags */}
+        <meta property="og:image" content={`${siteUrl}/favicon.png`} />
+        <meta property="og:image:secure_url" content={`${siteUrl}/favicon.png`} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="333" />
+        <meta property="og:image:height" content="478" />
+        <meta property="og:image:alt" content="ফুলপুর ব্লাড ডোনার নেটওয়ার্ক" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
