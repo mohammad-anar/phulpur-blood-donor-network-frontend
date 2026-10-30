@@ -107,7 +107,9 @@ export const metadata: Metadata = {
     apple: "/images/logo.png",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+      "google011de0bb51af2a18",
   },
 };
 
